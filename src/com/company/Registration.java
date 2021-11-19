@@ -1,3 +1,4 @@
+package com.company;
 public interface Registration {
-    public void Register();
+     void Register();
 }

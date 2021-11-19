@@ -1,5 +1,6 @@
+package com.company;
 public class ShowAverageRate implements Show_Rating{
-    void Show(){
+    public void Show(){
 
     }
 }

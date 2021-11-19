@@ -1,12 +1,13 @@
-public class User implements Registration,Show_Rating extends Person {
+package com.company;
+public class User extends Person implements Registration,Show_Rating {
     private String Source;
     private String Destination;
 
     //setters
-    private void setSource(float source){
+    private void setSource(String source){
         this.Source = source;
     }
-    private void setDestination(float destination){
+    private void setDestination(String destination){
         this.Destination = destination;
     }
     //getters
@@ -17,12 +18,16 @@ public class User implements Registration,Show_Rating extends Person {
         return this.Destination ;
     }
 //Methods
-    void Regitser(){
+@Override
+public void Register() {
 
-    }
+}
     void Requset(){
 
     }
     void Rate_Driver(){ }
-    int Show(){ }
+    @Override
+    public void Show() {
+
+    }
 }

@@ -1,7 +1,9 @@
-public class Driver implements Registration,Show_Rating extends Person {
+package com.company;
+
+public class Driver  extends Person implements Registration,Show_Rating {
     private String National_ID;
     private String Driving_license;
-    private String Average_rate;
+
 
     //setters
     private void  setNational_ID(String national_id){
@@ -10,9 +12,7 @@ public class Driver implements Registration,Show_Rating extends Person {
     private void  setDriving_license(String drivinglicense){
         this.Driving_license =drivinglicense;
     }
-    private void  setAverage_rate(String averagerate){
-        this.Average_rate =averagerate;
-    }
+
     //getters
     private String setNational_ID(){
         return this.National_ID ;
@@ -20,23 +20,21 @@ public class Driver implements Registration,Show_Rating extends Person {
     private String setDriving_license(){
         return this.Driving_license ;
     }
-    private String setAverage_rate(){
-        return this.Average_rate ;
-    }
+
     //Methods
-    void Register(){
+    public void Register() {
 
     }
     int Offer(){
+    return 0;
+    }
+
+     void Put_FaviorateSource_Areas(){
 
     }
-    void Show(){
 
-    }
-    void Put_Faviorate_Source_Areas(){
-
-    }
-    void Update_Average_Rating(){
+    @Override
+    public void Show() {
 
     }
 }

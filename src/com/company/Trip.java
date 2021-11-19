@@ -1,3 +1,5 @@
+package com.company;
+
 public class Trip {
     private User user = new User();
     private Driver driver = new Driver();
@@ -10,13 +12,13 @@ public class Trip {
     private void setRatingOfTrip(float rateoftrip){
         this.RatingOfTrip = rateoftrip;
     }
-    private void setSource(float source){
+    private void setSource(String source){
         this.Source = source;
     }
-    private void setDestination(float destination){
+    private void setDestination(String destination){
         this.Destination = destination;
     }
-    private void setTrip_ID(float trip_id){
+    private void setTrip_ID(String trip_id){
         this.Trip_ID = trip_id;
     }
     //getters

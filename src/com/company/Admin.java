@@ -2,10 +2,10 @@ package com.company;
 
 public class Admin extends Person{
     //Methods
-    void Verify(){
+    public void Verify(){
 
     }
-    void Suspend(){
+   public void Suspend(){
 
     }
 }
