@@ -4,14 +4,14 @@ public class User extends Person implements Registration,Show_Rating {
     private String Destination;
 
     //setters
-    private void setSource(String source){
+    public void setSource(String source){
         this.Source = source;
     }
     private void setDestination(String destination){
         this.Destination = destination;
     }
     //getters
-    private String getSource(){
+    public String getSource(){
         return this.Source;
     }
     private String getDestination(){
@@ -22,8 +22,14 @@ public class User extends Person implements Registration,Show_Rating {
 public void Register() {
 
 }
-    void Requset(){
+    void Requset(String source,String destination){
 
+          if(source.equals(destination)){
+              System.out.println("error! Please enter the correct path");
+          }else{
+              this.Source = source;
+              this.Destination =destination;
+          }
     }
     void Rate_Driver(){ }
     @Override
