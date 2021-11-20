@@ -1,36 +1,27 @@
 package com.company;
-
 import java.sql.PreparedStatement;
 import java.sql.*;
+import java.util.Scanner;
+
 public class Main {
 
-    public static void main(String[] args)  {
-
-         User user = new User();
-        user.setSource("giza");
-        String Source =user.getSource();
-
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            System.out.println("in try");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost3303/transportation", "root", "sara@sql1999A");
-
-            String sql = "SELECT * FROM favourite_areas WHERE Location = ? ";
-            PreparedStatement statement = connection.prepareStatement(sql);
-
-            statement.setString(1, Source);
-            ResultSet result = statement.executeQuery();
-            if (!result.next()) {
-                System.out.println("No Data Found For This Driver"); //data not exist
-            } else {
-                System.out.println("aaaaaaaaaa");
-                String id = result.getString("Driver_ID");
-                System.out.println(id);
-            }
-
-            connection.close();
-        }catch(Exception e){
-            System.out.println("here");
-        }
+    public static void main(String[] args) throws SQLException {
+        //user registration
+//        User u1 = new User();
+//        u1.Register();
+        /////////////////////////////
+        //driver registration
+//        Driver d1 = new Driver();
+//        d1.Register();
+        ////////////////////////
+        //login
+//        Scanner sc = new Scanner(System.in);
+//        Person p1 = new Person();
+//        String email,password;
+//        System.out.println("Enter email :-");
+//        email = sc.nextLine();
+//        System.out.println("Enter password :-");
+//        password = sc.nextLine();
+//        p1.Login(email,password);
     }
 }
