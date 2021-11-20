@@ -7,29 +7,29 @@ public abstract class Person {
     private String Password;
 
     //setters
-    private void  setUser_name(String username){
+    public void  setUser_name(String username){
         this.User_Name =username;
     }
-    private void  setMobile_number(String mobile_number){
+    public void  setMobile_number(String mobile_number){
         this.Mobile_Number =mobile_number;
     }
-    private void  setEmail(String email){
+    public void  setEmail(String email){
         this.Email =email;
     }
-    private void  setPassword(String password){
+    public void  setPassword(String password){
         this.Password =password;
     }
     //getters
-    private String getUser_name(){
+    public String getUser_name(){
         return User_Name;
     }
-    private String getMobile_number(){
+    public String getMobile_number(){
         return this.Mobile_Number;
     }
-    private String getEmail(){
+    public String getEmail(){
         return this.Email;
     }
-    private String getPassword(){
+    public String getPassword(){
         return this.Password;
     }
     //Methods

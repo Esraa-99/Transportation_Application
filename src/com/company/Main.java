@@ -1,36 +1,45 @@
 package com.company;
-
-import java.sql.PreparedStatement;
+import java.util.Scanner;
 import java.sql.*;
 public class Main {
 
     public static void main(String[] args)  {
-
+        Scanner scanner = new Scanner(System.in);
          User user = new User();
-        user.setSource("giza");
-        String Source =user.getSource();
+         Driver driver = new Driver();
 
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            System.out.println("in try");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost3303/transportation", "root", "sara@sql1999A");
+        user.Requset();
+        driver.find_request();
+        if(user.Show_Offer()==1){
+            try {
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
+                        "root", "");
 
-            String sql = "SELECT * FROM favourite_areas WHERE Location = ? ";
-            PreparedStatement statement = connection.prepareStatement(sql);
+                Statement stmt = connection.createStatement();
+                Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
+                        "root", "");
 
-            statement.setString(1, Source);
-            ResultSet result = statement.executeQuery();
-            if (!result.next()) {
-                System.out.println("No Data Found For This Driver"); //data not exist
-            } else {
-                System.out.println("aaaaaaaaaa");
-                String id = result.getString("Driver_ID");
-                System.out.println(id);
+                PreparedStatement ps = connect.prepareStatement("insert into trip (ID,source,destination,rate,user_id,driver_id) "
+                        + "values (?,?,?,?,?,?)");
+                Trip trip = new Trip();
+                ps.setInt(1, trip.getTrip_ID());
+                ps.setString(2, trip.getSource());
+                ps.setString(3, trip.getDestination());
+                ps.setFloat(4, trip.getRatingOfTrip());
+                ps.setInt(5, trip.getUser_id());
+                ps.setInt(6, trip.getDriver_id());
+                ps.executeUpdate();
+                 stmt.executeQuery("delete from Offers where Source= '" + user.getSource() +
+                        "' and Destination= '" + user.getDestination() +"';");
+
+                 stmt.executeQuery("delete * from OnHold_Trips where Source= '" + user.getSource() +
+                        "' and Destination= '" + user.getDestination() + "';");
+
+                connection.close();
+            }catch(Exception e){
+                System.out.println(e);
             }
-
-            connection.close();
-        }catch(Exception e){
-            System.out.println("here");
         }
+
     }
 }
