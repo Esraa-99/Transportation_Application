@@ -3,7 +3,7 @@ import java.util.Scanner;
 import java.sql.*;
 public class Main {
 
-    public static void main(String[] args)  {
+public static void main(String[] args)  {
         Scanner scanner = new Scanner(System.in);
          User user = new User();
          Driver driver = new Driver();
@@ -40,5 +40,4 @@ public class Main {
                 System.out.println(e);
             }
         }
-
     }
