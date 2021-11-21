@@ -1,7 +1,6 @@
 package com.company;
 
 import java.sql.*;
-import java.util.Scanner;
 
 public class Driver  extends Person implements Registration,Show_Rating {
     private String National_ID;
@@ -39,15 +38,10 @@ public class Driver  extends Person implements Registration,Show_Rating {
         String nationalID = in.nextLine();
         System.out.print("Enter your driving licence: ");
         String drivingLicence = in.nextLine();
-        System.out.print("Enter your status: ");
-        String status = in.nextLine();
+
         //verified by admin
-        Admin a = new Admin();
-        if (!a.Verify()) {
-            System.out.println("You are not verified :(");
-        }
-        else
-        {
+      
+       
             //insert new row in table driver
             //PreparedStatement ps = null;
             String query = "insert into drivers (Username,Mobile,Email,Password,National_ID,driving_licence,Status) "
@@ -65,25 +59,42 @@ public class Driver  extends Person implements Registration,Show_Rating {
                 ps.setString(4, password);
                 ps.setString(5, nationalID);
                 ps.setString(6, drivingLicence);
-                ps.setString(7, status);
+                ps.setString(7, "Pending");
                 ps.executeUpdate();
 
             } catch (SQLException e) {
                 System.out.println("Error: " + e.getMessage());
-            }
+            
         }
     }
-    int Offer(){
-        return 0;
-    }
 
-    void Put_FaviorateSource_Areas(){
-
-    }
-
-    @Override
-    public void Show() {
-
-    }
+    int getNationIDByUsername(String username){
+        try {
+            Connection con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/transportation", "root", "");
+            String query = "SELECT National_ID FROM drivers where Username='" + username + "'";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            int national=-1;
+            while (rs.next())
+            {
+               national = rs.getInt("National_ID");
+            }
+            return national;
+        }catch(Exception e){ return -1;}}
+    void Put_FaviorateSource_Areas(int National_ID,String Location){
+         try{
+             Class.forName("com.mysql.jdbc.Driver");
+             Connection con= DriverManager.getConnection(
+                     "jdbc:mysql://localhost:3306/transportation","root","");
+             PreparedStatement preparedStmt = con.prepareStatement("INSERT into favourite_areas(`Location`, `National`) VALUES (?,?) ");
+             preparedStmt.setString(1,Location);
+             preparedStmt.setInt(2, National_ID);
+             preparedStmt.executeUpdate();
+             con.close();
+         }
+         catch(Exception e){ System.out.println(e);}
+     }
+  
 }
 
