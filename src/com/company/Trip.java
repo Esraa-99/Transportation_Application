@@ -1,41 +1,48 @@
 package com.company;
 
 public class Trip {
-    private User user = new User();
-    private Driver driver = new Driver();
     private float RatingOfTrip;
     private String Source;
     private String Destination;
-    private String Trip_ID;
+    private int Trip_ID;
+    private int user_id;
+    private int driver_id;
 
     //setters
-    private void setRatingOfTrip(float rateoftrip){
+    public void setRatingOfTrip(float rateoftrip){
         this.RatingOfTrip = rateoftrip;
     }
-    private void setSource(String source){
+    public void setSource(String source){
         this.Source = source;
     }
-    private void setDestination(String destination){
+    public void setDestination(String destination){
         this.Destination = destination;
     }
-    private void setTrip_ID(String trip_id){
+    public void setTrip_ID(int trip_id){
         this.Trip_ID = trip_id;
     }
+    public void setUser_id(int user_id) {this.user_id = user_id;}
+    public void setDriver_id(int driver_id) {this.driver_id = driver_id;}
+
     //getters
-    private float getRatingOfTrip(){
+    public float getRatingOfTrip(){
         return this.RatingOfTrip ;
     }
-    private String getSource(){
+    public String getSource(){
         return this.Source;
     }
-    private String getDestination(){
+    public String getDestination(){
         return this.Destination ;
     }
-    private String getTrip_ID(){
+    public int getTrip_ID(){
         return this.Trip_ID;
     }
+    public int getUser_id() {return user_id;}
+    public int getDriver_id() {return driver_id;}
     //Methods
     public void Start(){ }
     public void End(){ }
 
 }
+
+
