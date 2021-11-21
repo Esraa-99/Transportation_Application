@@ -37,4 +37,5 @@ public class Trip {
     //Methods
     public void Start(){ }
     public void End(){ }
+
 }

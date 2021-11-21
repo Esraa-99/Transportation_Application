@@ -25,11 +25,49 @@ public class Driver  extends Person implements Registration,Show_Rating {
 
     //Methods
     public void Register() {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Enter your username: ");
+        String userName = in.nextLine();
+        System.out.print("Enter your mobile number: ");
+        String mobileNum = in.nextLine();
+        System.out.print("Enter your email: ");
+        String email = in.nextLine();
+        System.out.print("Enter your password: ");
+        String password = in.nextLine();
+        System.out.print("Enter your national ID: ");
+        String nationalID = in.nextLine();
+        System.out.print("Enter your driving licence: ");
+        String drivingLicence = in.nextLine();
 
+        //verified by admin
+      
+       
+            //insert new row in table driver
+            //PreparedStatement ps = null;
+            String query = "insert into drivers (Username,Mobile,Email,Password,National_ID,driving_licence,Status) "
+                    + "values (?,?,?,?,?,?,?)";
+
+            try {
+                //Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
+                        "root", "");
+
+                PreparedStatement ps = con.prepareStatement(query);
+                ps.setString(1, userName);
+                ps.setString(2, mobileNum);
+                ps.setString(3, email);
+                ps.setString(4, password);
+                ps.setString(5, nationalID);
+                ps.setString(6, drivingLicence);
+                ps.setString(7, "Pending");
+                ps.executeUpdate();
+
+            } catch (SQLException e) {
+                System.out.println("Error: " + e.getMessage());
+            
+        }
     }
-    int Offer(){
-    return 0;
-    }
+
     int getNationIDByUsername(String username){
         try {
             Connection con = DriverManager.getConnection(
@@ -43,8 +81,7 @@ public class Driver  extends Person implements Registration,Show_Rating {
                national = rs.getInt("National_ID");
             }
             return national;
-        }catch(Exception e){ return -1;}
-    }
+        }catch(Exception e){ return -1;}}
     void Put_FaviorateSource_Areas(int National_ID,String Location){
          try{
              Class.forName("com.mysql.jdbc.Driver");
@@ -58,9 +95,6 @@ public class Driver  extends Person implements Registration,Show_Rating {
          }
          catch(Exception e){ System.out.println(e);}
      }
-    @Override
-    public void Show() {
-
-    }
+  
 }
 

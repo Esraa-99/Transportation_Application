@@ -4,6 +4,7 @@ import java.sql.*;
 
 public class Admin extends Person{
     //Methods
+
     public void ShowPendingAccounts(){
         try{
             Connection con= DriverManager.getConnection(
@@ -25,8 +26,7 @@ public class Admin extends Person{
 
             con.close();
         }
-        catch(Exception e){ System.out.println(e);}
-    }
+        catch(Exception e){ System.out.println(e);}}
     public void Verify(int National_ID){
         try{
             Connection con= DriverManager.getConnection(
