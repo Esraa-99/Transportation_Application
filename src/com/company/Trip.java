@@ -16,7 +16,7 @@ public class Trip {
     private int driver_id;
 
     //setters
-   public void setRatingOfTrip(float rateoftrip){
+   public void setRatingOfTrip(String rateoftrip){
         this.RatingOfTrip = rateoftrip;
     }
     public void setSource(String source){
@@ -32,7 +32,7 @@ public class Trip {
     public void setDriver_id(int driver_id) {this.driver_id = driver_id;}
 
     //getters
-   private String getRatingOfTrip(){
+    public String getRatingOfTrip(){
         return this.RatingOfTrip ;
     }
     public String getSource(){

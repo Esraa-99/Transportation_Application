@@ -7,7 +7,7 @@ public class Person {
 
     private String User_Name;
     private String Mobile_Number;
-    private String Email;
+    public String Email;
     private String Password;
 
     //setters
@@ -38,9 +38,9 @@ public class Person {
     }
     //Methods
     //login
-    public void Login(String Email, String Pass){
+    public int Login(String Email, String Pass){
         Scanner sc = new Scanner(System.in);
-        System.out.println("PLZ, Enter ur user(1) or driver(2) :) ");
+        System.out.println("PLZ, Enter ur user(1) or driver(2) or admine(3) :) ");
         int choice = sc.nextInt();
         //user
         switch(choice) {
@@ -52,6 +52,10 @@ public class Person {
                     ResultSet RS = stmt.executeQuery("select * from users where Email= '" + Email + "' and password= '" + Pass + "';");
                     if (RS.next()) {
                         System.out.println("welcome back :) ");
+
+                        setEmail(Email);
+                        this.Email=Email;
+
                     } else {
                         System.out.println("Try to login again ^_^");
                     }
@@ -62,7 +66,8 @@ public class Person {
                     System.out.println("Erorr!"); //data not exist
                     e.printStackTrace();
                 }
-                break;
+                return 1;
+
             }
             //driver
             case 2: {
@@ -79,14 +84,38 @@ public class Person {
                     RS.close();
                     stmt.close();
                     connection.close();
+
                 } catch (SQLException e) {
                     System.out.println("Erorr!"); //data not exist
                     e.printStackTrace();
                 }
-                break;
-            } default: {
+                return 2;
+
+            }
+            case 3:
+            {
+                try {
+                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
+                            "root", "");
+                    Statement stmt = connection.createStatement();
+                    ResultSet RS = stmt.executeQuery("select * from admin where Email= '" + Email + "' and password= '" + Pass + "';");
+                    if (RS.next()) {
+                        System.out.println("welcome back :) ");
+                    } else {
+                        System.out.println("Try to login again ^_^");
+                    }
+                    RS.close();
+                    stmt.close();
+                    connection.close();
+                } catch (SQLException e) {
+                    System.out.println("Erorr!"); //data not exist
+                    e.printStackTrace();
+                }
+                return 3;
+            }
+            default: {
                 System.out.println("Select from options");
-                break;
+                return 4;
             }
         }
     }

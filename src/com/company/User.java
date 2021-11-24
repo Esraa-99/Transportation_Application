@@ -21,7 +21,7 @@ public class User extends Person implements Registration,Show_Rating {
    String getSource(){
         return this.Source;
     }
-    private String getDestination(){
+    public String getDestination(){
         return this.Destination ;
     }
   
@@ -83,7 +83,10 @@ public class User extends Person implements Registration,Show_Rating {
                         "root", "");
 
                 PreparedStatement ps = connect.prepareStatement(query);
-                ps.setString(1, this.getPassword());
+                System.out.println("enter the email you wont to use in this trip");
+                String email1=in.nextLine();
+
+                ps.setString(1, email1);
                 ps.setString(2, this.Source);
                 ps.setString(3, this.Destination);
                 ps.executeUpdate();
@@ -120,6 +123,22 @@ public class User extends Person implements Registration,Show_Rating {
                         System.out.println("Trip will be start in a few minutes");
                         return 1;
                     } else if (Choice == 0) {
+
+                        try {
+
+                           // Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
+                               //     "root", "");
+                            Statement Stmt = null;
+                            PreparedStatement ps;
+
+                            Stmt = connection.createStatement();
+                            String query = "delete from Offers where Source= '"+ this.Source +"' and Destination= '"+this.Destination+ "'";
+                            ps = connection.prepareStatement(query);
+                            ps.executeUpdate();
+
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
                         System.out.println("Wait,we'll find another driver closer...");
                         return 0;
                     }
