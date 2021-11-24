@@ -123,11 +123,11 @@ public class Driver extends Person implements Registration,Show_Rating {
     }
            
 
-    String getNationIDByUsername(String username){
+    String getNationIDByEmail(String mail){
         try {
             Connection con = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/transportation", "root", "");
-            String query = "SELECT National_ID FROM drivers where Email='" + username + "'";
+            String query = "SELECT National_ID FROM drivers where Email='" + mail + "'";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             String national="";

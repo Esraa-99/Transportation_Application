@@ -40,7 +40,7 @@ public class Person {
     //login
     public int Login(String Email, String Pass){
         Scanner sc = new Scanner(System.in);
-        System.out.println("PLZ, Enter ur user(1) or driver(2) or admine(3) :) ");
+        System.out.println("PLZ, Enter ur user(1) or driver(2) or admin(3) :) ");
         int choice = sc.nextInt();
         //user
         switch(choice) {
