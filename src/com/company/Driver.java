@@ -2,7 +2,7 @@ package com.company;
 
 import java.sql.*;
 import java.util.Scanner;
-public class Driver extends Person implements Registration,Show_Rating {
+public class Driver extends Person implements Registration {
     private String National_ID;
     private String Driving_license;
 
@@ -24,7 +24,7 @@ public class Driver extends Person implements Registration,Show_Rating {
     }
 
     //Methods
-    public void Register() {
+    public String Register() {
         Scanner in = new Scanner(System.in);
         System.out.print("Enter your username: ");
         String userName = in.nextLine();
@@ -62,6 +62,7 @@ public class Driver extends Person implements Registration,Show_Rating {
                 System.out.println("Error: " + e.getMessage());
             
         }
+       return  email;
     }
 
 
@@ -72,35 +73,44 @@ public class Driver extends Person implements Registration,Show_Rating {
 
             Statement stmt = connection.createStatement();
             ResultSet RS = stmt.executeQuery("select Location from favourite_areas where Driver_ID= '"+ national + "';");
+            //ResultSet Result;
+
             System.out.println("hhhhhhhhhhhhhh");
             National_ID=national;
-          //  System.out.println(National_ID);
-            while (RS.next())
+           System.out.println(National_ID);
+
+            if (RS.next())
             {
                 System.out.println("location: "+RS.getString(1));
-                ResultSet Result = stmt.executeQuery("select * from OnHold_Trips where Source= '"+ RS.getString(1) + "';");
+                ResultSet   Result = stmt.executeQuery("select * from OnHold_Trips where Source= '"+ RS.getString(1) + "';");
                 if (!Result.next()) {
                     System.out.println("there is no requests now"); //data not exist
                 } else {
                     System.out.println("you have a new request from "+Result.getString("Source") +" to "+Result.getString("Destination"));
-                    Offer(Result.getString("Source"),Result.getString("Destination"),RS.getString("User_ID"));
+                    Offer(Result.getString("Source"),Result.getString("Destination"),Result.getString("User"));
                 }
                // list.add(result.getString(1));
-            }
 
-            connection.close();
+            }
+            //Result.close();
+            //RS.close();
+            //connection.close();
         }catch(Exception e){
             System.out.println(e);
         }
 
     }
-    int Offer(String source,String destination,String User_ID){
+
+
+    int Offer(String source,String destination,String User_ID) {
+
+
         Scanner in = new Scanner(System.in);
         System.out.print("Set your offer here:");
         int price = in.nextInt();
 
         //insert new row in offers table
-        String query = "insert into Offers (Driver_ID,Source,Destination,Price,User_id) "
+        String query = "insert into Offers (Driver_ID,Source,Destination,Price,User) "
                 + "values (?,?,?,?,?)";
 
         try {
@@ -115,7 +125,7 @@ public class Driver extends Person implements Registration,Show_Rating {
             ps.setString(5, User_ID);
             ps.executeUpdate();
 
-
+           // connect.close();
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -148,11 +158,12 @@ public class Driver extends Person implements Registration,Show_Rating {
              preparedStmt.setString(2, National_ID);
              preparedStmt.executeUpdate();
              con.close();
+
          }
+
          catch(Exception e){ System.out.println(e);}
      }
-   public  void Show()
-    {}
+
   
 }
 

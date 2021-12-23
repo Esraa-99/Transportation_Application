@@ -1,4 +1,4 @@
 package com.company;
 public interface Show_Rating {
-     void Show();
+     void Show(String id);
 }

@@ -38,7 +38,12 @@ public class Person {
     }
     //Methods
     //login
-    public int Login(String Email, String Pass){
+    public int Login(String Email, String Pass) {
+        int var = check_person(Email, Pass);
+        return var;
+    }
+    public int check_person(String Email, String Pass)
+    {
         Scanner sc = new Scanner(System.in);
         System.out.println("PLZ, Enter ur user(1) or driver(2) or admin(3) :) ");
         int choice = sc.nextInt();
@@ -49,7 +54,7 @@ public class Person {
                     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
                             "root", "");
                     Statement stmt = connection.createStatement();
-                    ResultSet RS = stmt.executeQuery("select * from users where Email= '" + Email + "' and password= '" + Pass + "';");
+                    ResultSet RS = stmt.executeQuery("select * from users where Email= '" + Email + "' and password= '" + Pass + "'and status='active';");
                     if (RS.next()) {
                         System.out.println("welcome back :) ");
 
@@ -58,6 +63,7 @@ public class Person {
 
                     } else {
                         System.out.println("Try to login again ^_^");
+                        return  0;
                     }
                     RS.close();
                     stmt.close();
@@ -75,11 +81,13 @@ public class Person {
                     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
                             "root", "");
                     Statement stmt = connection.createStatement();
-                    ResultSet RS = stmt.executeQuery("select * from drivers where Email= '" + Email + "' and Password= '" + Pass + "';");
+                    ResultSet RS = stmt.executeQuery("select * from drivers where Email= '" + Email + "' and Password= '" + Pass + "' and status='active';");
                     if (RS.next()) {
                         System.out.println("welcome back :) ");
+
                     } else {
                         System.out.println("Try to login again ^_^");
+                        return  0;
                     }
                     RS.close();
                     stmt.close();
@@ -103,6 +111,7 @@ public class Person {
                         System.out.println("welcome back :) ");
                     } else {
                         System.out.println("Try to login again ^_^");
+                        return  0;
                     }
                     RS.close();
                     stmt.close();
@@ -119,5 +128,4 @@ public class Person {
             }
         }
     }
-
 }

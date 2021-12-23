@@ -10,12 +10,12 @@ public class ShowAverageRate implements Show_Rating{
     {
 
     }
-    public void Show()  {
+    public void Show( String driver_id1)  {
 
         String url="jdbc:mysql://localhost:3306/transportation";
         String username = "root";
         String password = "";
-        String driver_id1="1";
+        //String driver_id1="1";
         List<String> list = new ArrayList<>();
         try (Connection connection = getConnection(url, username, password)) {
             System.out.println("connected to the database ");
@@ -35,6 +35,6 @@ public class ShowAverageRate implements Show_Rating{
         {
             average =average+ Integer.parseInt(list.get(i));
         }
-        System.out.println("average = "+average/list.size());
+        System.out.println("average of driver  = "+average/list.size());
     }
 }

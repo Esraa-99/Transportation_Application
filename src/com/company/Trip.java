@@ -47,9 +47,12 @@ public class Trip {
     public int getUser_id() {return user_id;}
     public int getDriver_id() {return driver_id;}
     //Methods
-    public void Start(){ }
+    public void Start(){
+       System.out.println("trip is start ");
+    }
 
-   public void End(){
+   public void End(String id1,String emali2,String Source3,String destination4){
+       System.out.println("trip is end ");
         Scanner sc= new Scanner(System.in);
         System.out.println("Enter your rating for the trip between 1 to 5 ");
         RatingOfTrip =sc.nextLine();
@@ -61,16 +64,16 @@ public class Trip {
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             System.out.println("connected to the database ");
 
-            String query = " insert into trip (source, destination,rate,user_id , driver_id)"
+            String query = " insert into trip (source, destination,rate,User_id , driver_id)"
                     + " values (?, ?, ?, ?, ?)";
 
             // create the mysql insert preparedstatement
             PreparedStatement preparedStmt = connection.prepareStatement(query);
-            preparedStmt.setString (1, "helwan");
-            preparedStmt.setString (2, "giza");
+            preparedStmt.setString (1, Source3);
+            preparedStmt.setString (2, destination4);
             preparedStmt.setString   (3, RatingOfTrip);
-            preparedStmt.setString(4, "1");
-            preparedStmt.setString(5, "1");
+            preparedStmt.setString(4, emali2);
+            preparedStmt.setString(5, id1);
 
             // execute the preparedstatement
             preparedStmt.execute();
@@ -80,7 +83,7 @@ public class Trip {
 
         } catch (SQLException e) {
             System.out.println("Opps,error!");
-            e.printStackTrace();
+            System.out.println("Error: " + e.getMessage());
         }
 
     }
