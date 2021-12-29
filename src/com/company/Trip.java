@@ -75,10 +75,8 @@ public class Trip {
             preparedStmt.setString(4, emali2);
             preparedStmt.setString(5, id1);
 
-            // execute the preparedstatement
+
             preparedStmt.execute();
-
-
 
 
         } catch (SQLException e) {
@@ -86,6 +84,63 @@ public class Trip {
             System.out.println("Error: " + e.getMessage());
         }
 
+    }
+    public boolean isdoubletrip(String userid,String Source,String destination){
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            Statement stmt = connection.createStatement();
+            String query = " select * from holiday where User_id = '"+userid+
+                    "' and source ='"+Source+"'and destination ='"+destination+"';";
+            ResultSet RS = stmt.executeQuery(query);
+            if (!RS.next()){
+                String State = RS.getString("state");
+                if(State.equals("double"))
+                    return true;
+                else
+                    return false;
+            }else{
+                return false;
+            }
+        }
+        catch (SQLException e) {
+            System.out.println("Opps,error!");
+            System.out.println("Error: " + e.getMessage());
+        }
+        return false;
+    }
+    public boolean isDateoftripisuserbirthday(String B_date,String userid,String Source,String destination){
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
+                    "root", "");
+            Statement stmt = connection.createStatement();
+            String query = " select * from trip where date = '"+ B_date+"' and User_id = '"+userid+
+                    "' and source ='"+Source+"'and destination ='"+destination+"';";
+            ResultSet RS = stmt.executeQuery(query);
+            if (!RS.next())
+                return true;
+            else
+                return false;
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return false;
+    }
+    public boolean isDateoftripisholiday(String dateoftrip){
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
+                    "root", "");
+            Statement stmt = connection.createStatement();
+            String query = " select * from holiday where date = '"+ dateoftrip+"';";
+            ResultSet RS = stmt.executeQuery(query);
+            if (!RS.next())
+                return true;
+            else
+                return false;
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return false;
     }
 
 }

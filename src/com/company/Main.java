@@ -85,16 +85,25 @@ public static void main(String[] args) {
                             break;
                         case 2:
                             String arr1[]=  user.Show_Offer(email);
-                            Trip h=new Trip();
+                            Trip trip=new Trip();
                             if(arr1!=null) {
-                                h.Start();
-                                h.End(arr1[0], arr1[1], arr1[2], arr1[3]);
-                                if(user.isDateoftripisuserbirthday(user.birthday,arr1[4],arr1[2], arr1[3])){
+                                trip.Start();
+                                trip.End(arr1[0], arr1[1], arr1[2], arr1[3]);
+                                if(trip.isDateoftripisuserbirthday(user.birthday,arr1[4],arr1[2], arr1[3])){
                                     ratioOfDiscount +=10;
+                                    System.out.println("Surprise, you will get a discount on this trip on the occasion of your birthday.\nHappy birthday :)");
                                 }
-                                if(user.isDateoftripisholiday(arr1[5])){
+                                if(trip.isDateoftripisholiday(arr1[5])){
                                     ratioOfDiscount +=5;
+                                    System.out.println("you will get a discount on this trip on the occasion of public holiday.");
                                 }
+                                if(trip.isdoubletrip(arr1[4],arr1[2], arr1[3])){
+                                    ratioOfDiscount +=5;
+                                    System.out.println("because you in double trip will get a discount 5%,Enjoy :)");
+                                }
+                                int originalPrice = Integer.parseInt(arr1[6]);
+                                double PricewithDiscount = originalPrice *(1-(ratioOfDiscount/100));
+                                System.out.println("you will pay "+PricewithDiscount+" LE in this ride...");
                             }
                             break;
                         case 3:
@@ -105,7 +114,6 @@ public static void main(String[] args) {
                 break;
             case 2:
                 //Driver
-
                 Driver driver = new Driver();
                 while (flag) {
                     System.out.println("Driver Panel");
