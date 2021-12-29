@@ -14,7 +14,10 @@ public class Trip {
     private int Trip_ID;
     private int user_id;
     private int driver_id;
-
+    String url="jdbc:mysql://localhost:3306/transportation";
+    String username = "root";
+    String password = "";
+    String driver_id1="1";
     //setters
    public void setRatingOfTrip(String rateoftrip){
         this.RatingOfTrip = rateoftrip;
@@ -56,10 +59,7 @@ public class Trip {
         Scanner sc= new Scanner(System.in);
         System.out.println("Enter your rating for the trip between 1 to 5 ");
         RatingOfTrip =sc.nextLine();
-        String url="jdbc:mysql://localhost:3306/transportation";
-        String username = "root";
-        String password = "";
-        String driver_id1="1";
+
         List<String> list = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             System.out.println("connected to the database ");
@@ -87,6 +87,7 @@ public class Trip {
         }
 
     }
+
 }
 
 
