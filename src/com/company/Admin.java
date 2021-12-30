@@ -50,7 +50,7 @@ public class Admin extends Person{
         }
         catch(Exception e){ System.out.println(e);}
     }
-   public void Suspend(String Email1,int choice){
+    public void Suspend(String Email1,int choice){
        try{
 
            if(choice==1)
@@ -74,5 +74,38 @@ public class Admin extends Person{
 
        }
        catch(Exception e){ System.out.println(e);}
+    }
+    public void ShowEventLog(){
+        try{
+            Connection con= DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/transportation","root","");
+            String sql = "SELECT * FROM events";
+            PreparedStatement statement = con.prepareStatement(sql);
+            ResultSet result = statement.executeQuery();
+            System.out.println("Events:");
+            System.out.println("=========");
+            if (result.next()) {
+                System.out.println("Username: " + result.getString("event_name"));
+                System.out.println("Mobile: " + result.getString("event_time"));
+                System.out.println("Email: " + result.getString("Email"));
+                System.out.println("Password: " + result.getString("username"));
+                System.out.println("National ID: " + result.getString("type"));
+                System.out.println("-----------------------------------");
+            }else{System.out.println("No Events has done");}
+            con.close();
+        }
+        catch(Exception e){ System.out.println(e);}
+    }
+    public void AddDiscount(String area,float discount){
+        try{
+            Connection con= DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/transportation","root","");
+            PreparedStatement preparedStmt = con.prepareStatement("Insert into discount(place,discount) values (?,?)");
+            preparedStmt.setString   (1, area);
+            preparedStmt.setFloat   (2, discount);
+            preparedStmt.executeUpdate();
+            con.close();
+        }
+        catch(Exception e){ System.out.println(e);}
     }
 }
