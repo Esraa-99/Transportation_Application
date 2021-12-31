@@ -1,9 +1,10 @@
 package com.company;
+import java.text.ParseException;
 import java.util.Scanner;
 
 public class Main {
 
-public static void main(String[] args) {
+public static void main(String[] args)  {
     String email;
     Scanner int_scanner = new Scanner(System.in);
     Scanner string_scanner = new Scanner(System.in);
@@ -78,7 +79,7 @@ public static void main(String[] args) {
                             Trip h=new Trip();
                             if(arr1!=null) {
                                 h.Start();
-                                h.End(arr1[0], arr1[1], arr1[2], arr1[3]);
+                                h.End(arr1[0], arr1[1], arr1[2], arr1[3],arr1[4],arr1[5]);
                             }
 
 

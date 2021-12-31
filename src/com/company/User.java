@@ -1,6 +1,9 @@
 package com.company;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.sql.*;
+import java.util.Date;
 import java.util.Scanner;
 
 public class User extends Person implements Registration {
@@ -27,7 +30,7 @@ public class User extends Person implements Registration {
   
     //Methods
     @Override
-    public String Register() {
+    public String Register()  {
         Scanner in = new Scanner(System.in);
         System.out.print("Enter your username: ");
         String userName = in.nextLine();
@@ -37,10 +40,11 @@ public class User extends Person implements Registration {
         String email = in.nextLine();
         System.out.print("Enter your password: ");
         String password = in.nextLine();
+        System.out.print("Enter your birthday: ");
+        String birth = in.nextLine();
 
-        //insert new row in table user
-        String query = "insert into users (Username,Mobile,Email,Password,status) "
-                + "values (?,?,?,?,?)";
+        String query = "insert into users (Username,Mobile,Email,Password,status,birthdate) "
+                + "values (?,?,?,?,?,?)";
 
         try {
             Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
@@ -52,6 +56,7 @@ public class User extends Person implements Registration {
             ps.setString(3, email);
             ps.setString(4, password);
             ps.setString(5, "active");
+            ps.setString(6, birth);
             ps.executeUpdate();
             System.out.println("the recent user has registered");
 
@@ -68,6 +73,8 @@ return  email;
         String source = in.nextLine();
         System.out.print("Enter your Destination:");
         String destination = in.nextLine();
+         System.out.println("if you need share trip enter 'yes' else enter 'no'");
+         String share_trip = in.nextLine();
 
         if (source.equals(destination)) {
             System.out.println("error! Please enter the correct path");
@@ -76,8 +83,8 @@ return  email;
             this.Destination = destination;
 
             //insert new row in on hold trips table
-            String query = "insert into OnHold_Trips (User,Source,Destination) "
-                    + "values (?,?,?)";
+            String query = "insert into OnHold_Trips (User,Source,Destination,shareTrip) "
+                    + "values (?,?,?,?)";
 
             try {
                 Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
@@ -90,6 +97,7 @@ return  email;
                 ps.setString(1, email1);
                 ps.setString(2, this.Source);
                 ps.setString(3, this.Destination);
+                ps.setString(4,share_trip);
                 ps.executeUpdate();
 
 
@@ -115,10 +123,14 @@ return  email;
             } else {
                 String id = RS.getString("Driver_ID");
                 int Price = RS.getInt("Price");
-              // String price1= String.valueOf((Price));
+               String price1= String.valueOf((Price));
                 this.Source = RS.getString("Source");
                 this.Destination = RS.getString("Destination");
-                String[]  arr={id,email1,this.Source,this.Destination};
+                String priceoffer=String.valueOf((Price));
+
+
+
+                String[]  arr={id,email1,this.Source,this.Destination,price1,priceoffer};
                 ResultSet Result = stmt.executeQuery("select * from drivers where National_ID='" + id + "';");
                 if (!Result.next()) {
                     System.out.println("No data"); //data not exist
