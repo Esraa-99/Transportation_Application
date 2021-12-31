@@ -3,10 +3,10 @@ import java.util.Scanner;
 
 public class Main {
     static int ratioOfDiscount=0;
-public static void main(String[] args) {
-    String email;
-    Scanner int_scanner = new Scanner(System.in);
-    Scanner string_scanner = new Scanner(System.in);
+    public static void main(String[] args) {
+        String email;
+        Scanner int_scanner = new Scanner(System.in);
+        Scanner string_scanner = new Scanner(System.in);
         int choice;boolean flag=true;
 
         System.out.println("1-Register");
@@ -35,7 +35,7 @@ public static void main(String[] args) {
             case 2:
                 Person person = new Person();
                 System.out.println("Enter Email");
-                 email = string_scanner.nextLine();
+                email = string_scanner.nextLine();
                 System.out.println("Enter Password");
                 String pass = string_scanner.nextLine();
 
@@ -52,14 +52,15 @@ public static void main(String[] args) {
     {    Scanner int_scanner = new Scanner(System.in);
         Scanner string_scanner = new Scanner(System.in);
         int choice;boolean flag=true;
-        Admin admin = Admin.getInstance();
+        Admin a = Admin.getInstance();
+        //adminControl a = new adminControl();
         switch (userType){
             case 0:
                 System.out.println("you cant login ");
                 break;
             case 1:
                 //User
-                User user= new User();
+                userControl user= new userControl();
 
                 while (flag){
                     System.out.println("User Panel");
@@ -73,7 +74,11 @@ public static void main(String[] args) {
 
                     switch (choice){
                         case 1:
-                            if(admin.isfav(user.Requset(email))){
+                        {
+                            //discount 10%(user,ratioOfDiscount,email)
+                            //a.firstVisit(user,ratioOfDiscount,email);
+                            //void firstVisit(userControl u,int ratioOfDiscount,String email){
+                            if(a.isfav(user.Requset(email))){
                                 ratioOfDiscount+=10;
                                 System.out.println("You will have discount 10% when you start this trip :) ");
                             }
@@ -81,23 +86,24 @@ public static void main(String[] args) {
                                 ratioOfDiscount+=10;
                                 System.out.println("You will have discount 10% because this is your first trip, Enjoy :) ");
                             }
-
-                            break;
+                            //  }
+                        }
+                        break;
                         case 2:
                             String arr1[]=  user.Show_Offer(email);
-                            Trip trip=new Trip();
+                            Application trip=new Application();
                             if(arr1!=null) {
                                 trip.Start();
                                 trip.End(arr1[0], arr1[1], arr1[2], arr1[3]);
-                                if(trip.isDateoftripisuserbirthday(user.birthday,arr1[4],arr1[2], arr1[3])){
+                                if(trip.tripOnHoliday(user.birthday,arr1[4],arr1[2], arr1[3])){
                                     ratioOfDiscount +=10;
                                     System.out.println("Surprise, you will get a discount on this trip on the occasion of your birthday.\nHappy birthday :)");
                                 }
-                                if(trip.isDateoftripisholiday(arr1[5])){
+                                if(trip.dateOfHoliday(arr1[5])){
                                     ratioOfDiscount +=5;
                                     System.out.println("you will get a discount on this trip on the occasion of public holiday.");
                                 }
-                                if(trip.isdoubletrip(arr1[4],arr1[2], arr1[3])){
+                                if(trip.isDoubleTrip(arr1[4],arr1[2], arr1[3])){
                                     ratioOfDiscount +=5;
                                     System.out.println("because you in double trip will get a discount 5%,Enjoy :)");
                                 }
@@ -114,7 +120,7 @@ public static void main(String[] args) {
                 break;
             case 2:
                 //Driver
-                Driver driver = new Driver();
+                driverControl driver = new driverControl();
                 while (flag) {
                     System.out.println("Driver Panel");
                     System.out.println("==========");
@@ -160,12 +166,12 @@ public static void main(String[] args) {
 
                     switch (choice){
                         case 1:
-                            int h=admin.ShowPendingAccounts();
+                            int h=a.ShowPendingAccounts();
                             if(h==1)
                             {
                                 System.out.println("Enter The NationalID Of the Account To be verified:");
                                 national = int_scanner.nextInt();
-                                admin.Verify(national);
+                                a.Verify(national);
                             }
 
                             break;
@@ -177,10 +183,10 @@ public static void main(String[] args) {
                             System.out.println("1 if he driver,enter 2 if he user  ");
                             int choice5=int_scanner.nextInt();
 
-                            admin.Suspend(email2,choice5);
+                            a.Suspend(email2,choice5);
                             break;
                         case 3:
-                            admin.AddspecificAreas();
+                            a.AddspecificAreas();
                             break;
                         case 4:
                             flag=false;
