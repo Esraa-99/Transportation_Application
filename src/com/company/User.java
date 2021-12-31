@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class User extends Person implements Registration {
     private String Source;
     private String Destination;
+    public String birthday;
     Driver driver = new Driver();
 
     //setters
@@ -37,10 +38,11 @@ public class User extends Person implements Registration {
         String email = in.nextLine();
         System.out.print("Enter your password: ");
         String password = in.nextLine();
-
+        System.out.print("Enter your Birthday: ");
+        String birthdate = in.nextLine();
         //insert new row in table user
-        String query = "insert into users (Username,Mobile,Email,Password,status) "
-                + "values (?,?,?,?,?)";
+        String query = "insert into users (Username,Mobile,Email,Password,status,birthdate) "
+                + "values (?,?,?,?,?,?)";
 
         try {
             Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
@@ -52,6 +54,7 @@ public class User extends Person implements Registration {
             ps.setString(3, email);
             ps.setString(4, password);
             ps.setString(5, "active");
+            ps.setString(6, birthdate);
             ps.executeUpdate();
             System.out.println("the recent user has registered");
 
@@ -60,8 +63,24 @@ public class User extends Person implements Registration {
         }
 return  email;
     }
+    public boolean isFirtTripforUser(String email){
+       try{
+           Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
+                   "root", "");
 
-    public void Requset(String email1) {
+           Statement stmt = connection.createStatement();
+           ResultSet RS = stmt.executeQuery("select * from trip where User ='"+ email+"';");
+           if (!RS.next()){
+               return true;
+           }else {
+               return false;
+           }
+       }catch (Exception e) {
+           System.out.println(e);
+       }
+       return false;
+    }
+    public String Requset(String email1) {
 
         Scanner in = new Scanner(System.in);
         System.out.print("Enter your Source:");
@@ -97,6 +116,7 @@ return  email;
                 System.out.println("Error: " + e.getMessage());
             }
         }
+        return  this.Source;
     }
 
     public String[] Show_Offer(String email1) {
@@ -114,11 +134,13 @@ return  email;
                 System.out.println("No offers yet"); //data not exist
             } else {
                 String id = RS.getString("Driver_ID");
+                String id_user = RS.getString("User_id");
+                String date = RS.getString("date");
                 int Price = RS.getInt("Price");
-              // String price1= String.valueOf((Price));
+
                 this.Source = RS.getString("Source");
                 this.Destination = RS.getString("Destination");
-                String[]  arr={id,email1,this.Source,this.Destination};
+                String[]  arr={/*0*/id,/*1*/email1,/*2*/this.Source,/*3*/this.Destination,/*4*/id_user,/*5*/date, /*6*/String.valueOf(Price)};
                 ResultSet Result = stmt.executeQuery("select * from drivers where National_ID='" + id + "';");
                 if (!Result.next()) {
                     System.out.println("No data"); //data not exist
@@ -129,12 +151,9 @@ return  email;
                     System.out.println("Driver(" + Result.getString("Username") + ") Offers you '" + Price + "LE' from "
                             + this.Source + " to " + this.Destination + "\nIf you accept this offer press 1 else press 0");
 
-
                     int Choice = scanner.nextInt();
                     if (Choice == 1) {
                         System.out.println("Trip will be start in a few minutes");
-
-
                         try {
 
                             // Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
@@ -167,12 +186,11 @@ return  email;
                             System.out.println(e);
                         }
                         return arr;
+
                     } else if (Choice == 0) {
 
                         try {
 
-                           // Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
-                               //     "root", "");
                             Statement Stmt = null;
                             PreparedStatement ps;
 
@@ -195,8 +213,7 @@ return  email;
         }
         return null;
         }
-        public void Rate_Driver () {
-        }
+
 
 
 }

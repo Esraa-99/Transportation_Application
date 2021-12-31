@@ -2,7 +2,7 @@ package com.company;
 import java.util.Scanner;
 
 public class Main {
-
+    static int ratioOfDiscount=0;
 public static void main(String[] args) {
     String email;
     Scanner int_scanner = new Scanner(System.in);
@@ -52,6 +52,7 @@ public static void main(String[] args) {
     {    Scanner int_scanner = new Scanner(System.in);
         Scanner string_scanner = new Scanner(System.in);
         int choice;boolean flag=true;
+        Admin admin = Admin.getInstance();
         switch (userType){
             case 0:
                 System.out.println("you cant login ");
@@ -59,6 +60,7 @@ public static void main(String[] args) {
             case 1:
                 //User
                 User user= new User();
+
                 while (flag){
                     System.out.println("User Panel");
                     System.out.println("==========");
@@ -71,17 +73,38 @@ public static void main(String[] args) {
 
                     switch (choice){
                         case 1:
-                            user.Requset(email);
+                            if(admin.isfav(user.Requset(email))){
+                                ratioOfDiscount+=10;
+                                System.out.println("You will have discount 10% when you start this trip :) ");
+                            }
+                            if(user.isFirtTripforUser(email)){
+                                ratioOfDiscount+=10;
+                                System.out.println("You will have discount 10% because this is your first trip, Enjoy :) ");
+                            }
+
                             break;
                         case 2:
                             String arr1[]=  user.Show_Offer(email);
-                            Trip h=new Trip();
+                            Trip trip=new Trip();
                             if(arr1!=null) {
-                                h.Start();
-                                h.End(arr1[0], arr1[1], arr1[2], arr1[3]);
+                                trip.Start();
+                                trip.End(arr1[0], arr1[1], arr1[2], arr1[3]);
+                                if(trip.isDateoftripisuserbirthday(user.birthday,arr1[4],arr1[2], arr1[3])){
+                                    ratioOfDiscount +=10;
+                                    System.out.println("Surprise, you will get a discount on this trip on the occasion of your birthday.\nHappy birthday :)");
+                                }
+                                if(trip.isDateoftripisholiday(arr1[5])){
+                                    ratioOfDiscount +=5;
+                                    System.out.println("you will get a discount on this trip on the occasion of public holiday.");
+                                }
+                                if(trip.isdoubletrip(arr1[4],arr1[2], arr1[3])){
+                                    ratioOfDiscount +=5;
+                                    System.out.println("because you in double trip will get a discount 5%,Enjoy :)");
+                                }
+                                int originalPrice = Integer.parseInt(arr1[6]);
+                                double PricewithDiscount = originalPrice *(1-(ratioOfDiscount/100));
+                                System.out.println("you will pay "+PricewithDiscount+" LE in this ride...");
                             }
-
-
                             break;
                         case 3:
                             flag=false;
@@ -91,7 +114,6 @@ public static void main(String[] args) {
                 break;
             case 2:
                 //Driver
-
                 Driver driver = new Driver();
                 while (flag) {
                     System.out.println("Driver Panel");
@@ -124,15 +146,14 @@ public static void main(String[] args) {
                 }
             case 3:
                 //Admin
-                Admin admin = Admin.getInstance();
-
                 int national;
                 while(flag){
                     System.out.println("Admin Panel");
                     System.out.println("===========");
                     System.out.println("1-Verify Account");
                     System.out.println("2-Suspend Account");
-                    System.out.println("3-Exit");
+                    System.out.println("3-Add specific areas");
+                    System.out.println("4-Exit");
 
                     System.out.print("Enter Your Choice: ");
                     choice = int_scanner.nextInt();
@@ -159,8 +180,13 @@ public static void main(String[] args) {
                             admin.Suspend(email2,choice5);
                             break;
                         case 3:
+                            admin.AddspecificAreas();
+                            break;
+                        case 4:
                             flag=false;
                             break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + choice);
                     }
                 }
                 break;

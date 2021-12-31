@@ -14,7 +14,10 @@ public class Trip {
     private int Trip_ID;
     private int user_id;
     private int driver_id;
-
+    String url="jdbc:mysql://localhost:3306/transportation";
+    String username = "root";
+    String password = "";
+    String driver_id1="1";
     //setters
    public void setRatingOfTrip(String rateoftrip){
         this.RatingOfTrip = rateoftrip;
@@ -56,10 +59,7 @@ public class Trip {
         Scanner sc= new Scanner(System.in);
         System.out.println("Enter your rating for the trip between 1 to 5 ");
         RatingOfTrip =sc.nextLine();
-        String url="jdbc:mysql://localhost:3306/transportation";
-        String username = "root";
-        String password = "";
-        String driver_id1="1";
+
         List<String> list = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             System.out.println("connected to the database ");
@@ -75,10 +75,8 @@ public class Trip {
             preparedStmt.setString(4, emali2);
             preparedStmt.setString(5, id1);
 
-            // execute the preparedstatement
+
             preparedStmt.execute();
-
-
 
 
         } catch (SQLException e) {
@@ -87,6 +85,64 @@ public class Trip {
         }
 
     }
+    public boolean isdoubletrip(String userid,String Source,String destination){
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            Statement stmt = connection.createStatement();
+            String query = " select * from holiday where User_id = '"+userid+
+                    "' and source ='"+Source+"'and destination ='"+destination+"';";
+            ResultSet RS = stmt.executeQuery(query);
+            if (!RS.next()){
+                String State = RS.getString("state");
+                if(State.equals("double"))
+                    return true;
+                else
+                    return false;
+            }else{
+                return false;
+            }
+        }
+        catch (SQLException e) {
+            System.out.println("Opps,error!");
+            System.out.println("Error: " + e.getMessage());
+        }
+        return false;
+    }
+    public boolean isDateoftripisuserbirthday(String B_date,String userid,String Source,String destination){
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
+                    "root", "");
+            Statement stmt = connection.createStatement();
+            String query = " select * from trip where date = '"+ B_date+"' and User_id = '"+userid+
+                    "' and source ='"+Source+"'and destination ='"+destination+"';";
+            ResultSet RS = stmt.executeQuery(query);
+            if (!RS.next())
+                return true;
+            else
+                return false;
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return false;
+    }
+    public boolean isDateoftripisholiday(String dateoftrip){
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
+                    "root", "");
+            Statement stmt = connection.createStatement();
+            String query = " select * from holiday where date = '"+ dateoftrip+"';";
+            ResultSet RS = stmt.executeQuery(query);
+            if (!RS.next())
+                return true;
+            else
+                return false;
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return false;
+    }
+
 }
 
 
