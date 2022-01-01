@@ -97,7 +97,7 @@ public class Admin extends Person{
         }
         catch(Exception e){ System.out.println(e);}
     }
-    public void AddDiscount(String area,float discount){
+    /*public void AddDiscount(String area,float discount){
         try{
             Connection con= DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/transportation","root","");
@@ -107,7 +107,8 @@ public class Admin extends Person{
             preparedStmt.executeUpdate();
             con.close();
         }
-        catch(Exception e){ System.out.println(e);}  
+        catch(Exception e){ System.out.println(e);}  }*/
+
   public void AddspecificAreas(){
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter number of areas which you want to add");
