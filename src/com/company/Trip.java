@@ -1,6 +1,8 @@
 package com.company;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -54,7 +56,10 @@ public class Trip {
        System.out.println("trip is start ");
     }
 
-   public void End(String id1,String emali2,String Source3,String destination4){
+   public void End(String id1,String emali2,String Source3,String destination4,String price,String offerprice){
+       DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+       LocalDateTime now = LocalDateTime.now();
+       System.out.println(dtf.format(now));
        System.out.println("trip is end ");
         Scanner sc= new Scanner(System.in);
         System.out.println("Enter your rating for the trip between 1 to 5 ");
@@ -64,17 +69,23 @@ public class Trip {
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             System.out.println("connected to the database ");
 
-            String query = " insert into trip (source, destination,rate,User_id , driver_id)"
-                    + " values (?, ?, ?, ?, ?)";
-
+            String query = " insert into trip (source, destination,rate,User_id ,price,driver_id,startTime,endTime,driverPrice)"
+                    + " values (?, ?, ?, ?, ?,?,?,?,?)";
+            DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now1 = LocalDateTime.now();
+            System.out.println(dtf1.format(now1));
             // create the mysql insert preparedstatement
             PreparedStatement preparedStmt = connection.prepareStatement(query);
             preparedStmt.setString (1, Source3);
             preparedStmt.setString (2, destination4);
-            preparedStmt.setString   (3, RatingOfTrip);
+            preparedStmt.setString (3, RatingOfTrip);
             preparedStmt.setString(4, emali2);
             preparedStmt.setString(5, id1);
-
+            preparedStmt.setString(6, price);
+            preparedStmt.setString(7, dtf1.format(now));
+            preparedStmt.setString(8, dtf1.format(now1));
+            preparedStmt.setString(9, offerprice);
+            // execute the preparedstatement
 
             preparedStmt.execute();
 
@@ -83,6 +94,21 @@ public class Trip {
             System.out.println("Opps,error!");
             System.out.println("Error: " + e.getMessage());
         }
+       String jdbcUrl = "jdbc:mysql://localhost:3306/transportation";
+       String username1 = "root";
+       String password1 = "";
+       String sql = "update drivers set location='"+ destination4+"', tripState='off' where National_ID='"+id1+"';";
+
+       try (Connection conn = DriverManager.getConnection(jdbcUrl, username1, password1);
+            PreparedStatement stmt = conn.prepareStatement(sql);) {
+
+           stmt.executeUpdate();
+
+           System.out.println("Database updated successfully ");
+       } catch (SQLException e) {
+           e.printStackTrace();
+       }
+
 
     }
     public boolean isdoubletrip(String userid,String Source,String destination){
@@ -120,6 +146,7 @@ public class Trip {
             else
                 return false;
 
+
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -141,6 +168,7 @@ public class Trip {
             System.out.println("Error: " + e.getMessage());
         }
         return false;
+
     }
 
 }

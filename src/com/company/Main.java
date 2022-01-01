@@ -1,9 +1,12 @@
 package com.company;
+import java.text.ParseException;
 import java.util.Scanner;
 
 public class Main {
+
     static int ratioOfDiscount=0;
 public static void main(String[] args) {
+
     String email;
     Scanner int_scanner = new Scanner(System.in);
     Scanner string_scanner = new Scanner(System.in);
@@ -88,7 +91,7 @@ public static void main(String[] args) {
                             Trip trip=new Trip();
                             if(arr1!=null) {
                                 trip.Start();
-                                trip.End(arr1[0], arr1[1], arr1[2], arr1[3]);
+                                trip.End(arr1[0], arr1[1], arr1[2], arr1[3],arr1[4],arr1[5]);
                                 if(trip.isDateoftripisuserbirthday(user.birthday,arr1[4],arr1[2], arr1[3])){
                                     ratioOfDiscount +=10;
                                     System.out.println("Surprise, you will get a discount on this trip on the occasion of your birthday.\nHappy birthday :)");
@@ -104,6 +107,7 @@ public static void main(String[] args) {
                                 int originalPrice = Integer.parseInt(arr1[6]);
                                 double PricewithDiscount = originalPrice *(1-(ratioOfDiscount/100));
                                 System.out.println("you will pay "+PricewithDiscount+" LE in this ride...");
+
                             }
                             break;
                         case 3:
