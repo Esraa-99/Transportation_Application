@@ -1,5 +1,5 @@
 package com.company;
-
+import java.util.Scanner;
 import java.sql.*;
 
 public class Admin extends Person{
@@ -75,7 +75,8 @@ public class Admin extends Person{
        }
        catch(Exception e){ System.out.println(e);}
     }
-    public void ShowEventLog(){
+
+  public void ShowEventLog(){
         try{
             Connection con= DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/transportation","root","");
@@ -106,6 +107,47 @@ public class Admin extends Person{
             preparedStmt.executeUpdate();
             con.close();
         }
-        catch(Exception e){ System.out.println(e);}
+        catch(Exception e){ System.out.println(e);}  
+  public void AddspecificAreas(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter number of areas which you want to add");
+        int number = scan.nextInt();
+        for(int i=0; i<number ;i++){
+            String area = scan.nextLine();
+        try {
+            String query = "insert into discount (place) "
+                    + "values (?)";
+            Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
+                    "root", "");
+
+            PreparedStatement ps = connect.prepareStatement(query);
+
+            ps.setString(1, area);
+
+            ps.executeUpdate();
+
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }}
+    public boolean isfav(String destination){
+        Connection con= null;
+        try {
+            con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/transportation","root","");
+            String sql = "SELECT * FROM discount WHERE place = '"+destination+"' ";
+            PreparedStatement statement = con.prepareStatement(sql);
+            ResultSet result = statement.executeQuery();
+            if(!result.next()){
+                return false;
+            }else{
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+
     }
 }
