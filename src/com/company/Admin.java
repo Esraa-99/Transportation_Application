@@ -76,7 +76,7 @@ public class Admin extends Person{
        catch(Exception e){ System.out.println(e);}
     }
 
-  public void ShowEventLog(){
+  public void ShowEventLog1(){
         try{
             Connection con= DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/transportation","root","");
@@ -86,6 +86,7 @@ public class Admin extends Person{
             System.out.println("Events:");
             System.out.println("=========");
             if (result.next()) {
+
                 System.out.println("Username: " + result.getString("event_name"));
                 System.out.println("Mobile: " + result.getString("event_time"));
                 System.out.println("Email: " + result.getString("Email"));
@@ -149,6 +150,92 @@ public class Admin extends Person{
             e.printStackTrace();
         }
         return false;
+
+    }
+
+
+    ResultSet Select(String query) throws SQLException {
+        Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/transportation","root","");
+        Statement statement = con.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        return resultSet;
+    }
+    public void ShowEventLog()  {
+        Connection con= null;
+
+        try {
+            con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/transportation","root","");
+        String sql = "SELECT * FROM offers";
+        ResultSet result = Select(sql);
+
+        System.out.println("Events:");
+        System.out.println("=========");
+        while (result.next()) {
+            System.out.println("Event Name: Captin Put price To the ride");
+            System.out.println("Event Time: " + result.getString("time"));
+            System.out.println("Username: " + result.getString("user"));
+            System.out.println("Price: " + result.getString("price"));
+            System.out.println("User type: Driver");
+            System.out.println("-----------------------------------");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+     //   Connection con= null;
+
+        try {
+            con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/transportation","root","");
+        //Second Query
+         String  sql = "SELECT startTime,users.username FROM `trip` INNER JOIN users ON users.Email = trip.User_id";
+            ResultSet result = Select(sql);
+        while (result.next()) {
+            System.out.println("Event Name: User accept captin price");
+            System.out.println("Event Time: " + result.getString("startTime"));
+            System.out.println("Username: " + result.getString("username"));
+            System.out.println("User type: Client");
+            System.out.println("-----------------------------------");
+        }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //Third Query
+        //Connection con= null;
+        try {
+            con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/transportation","root","");
+        String  sql = "SELECT startTime,users.username as 'user' ,drivers.Username as 'captin' FROM (`trip` INNER JOIN users) INNER JOIN drivers ON (users.Email = trip.User_id) AND (trip.driver_id = drivers.National_ID)";
+        PreparedStatement statement = con.prepareStatement(sql);
+        ResultSet result1 = statement.executeQuery();
+        while (result1.next()) {
+            System.out.println("Event Name: Captain arrived to user location");
+            System.out.println("Event Time: " + result1.getString("startTime"));
+            System.out.println("User: " + result1.getString("user"));
+            System.out.println("Captin:" + result1.getString("captin") );
+            System.out.println("-----------------------------------");
+        }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //Fourth Query
+        try {
+            con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/transportation","root","");
+         String sql = "SELECT endTime,users.username as 'user' ,drivers.Username as 'captin' FROM (`trip` INNER JOIN users) INNER JOIN drivers ON (users.Email = trip.User_id) AND (trip.driver_id = drivers.National_ID)";
+            PreparedStatement statement = con.prepareStatement(sql);
+            ResultSet result2 = statement.executeQuery();
+        while (result2.next()) {
+            System.out.println("Event Name: Captain arrived to user destination");
+            System.out.println("Event Time: " + result2.getString("endTime"));
+            System.out.println("User: " + result2.getString("user"));
+            System.out.println("Captin:" + result2.getString("captin") );
+            System.out.println("-----------------------------------");
+        }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 }

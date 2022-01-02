@@ -80,8 +80,9 @@ public class Trip {
             preparedStmt.setString (2, destination4);
             preparedStmt.setString (3, RatingOfTrip);
             preparedStmt.setString(4, emali2);
-            preparedStmt.setString(5, id1);
-            preparedStmt.setString(6, price);
+
+            preparedStmt.setString(5, price);
+            preparedStmt.setString(6, id1);
             preparedStmt.setString(7, dtf1.format(now));
             preparedStmt.setString(8, dtf1.format(now1));
             preparedStmt.setString(9, offerprice);
@@ -111,40 +112,69 @@ public class Trip {
 
 
     }
-    public boolean isdoubletrip(String userid,String Source,String destination){
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+
+    public void AddPricewithDiscount(String id1,String emali2,String Source3,String destination4,String priceoffer){
+           String jdbcUrl = "jdbc:mysql://localhost:3306/transportation";
+           String username1 = "root";
+           String password1 = "";
+            System.out.println("connected to the database ");
+
+            String query = " update trip set driverPrice ='"+priceoffer+"where source ='"+Source3+"' and destination ='"+destination4+"' and User_id ='"+emali2+"' and driver_id ='"+id1+"';";
+
+
+        try (Connection conn = DriverManager.getConnection(jdbcUrl, username1, password1);
+             PreparedStatement stmt = conn.prepareStatement(query);) {
+
+            stmt.executeUpdate();
+
+            System.out.println("Database updated successfully ");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+    public boolean isdoubletrip(String State){
+
+       /* try (Connection connection = DriverManager.getConnection(url, username, password)) {
             Statement stmt = connection.createStatement();
-            String query = " select * from holiday where User_id = '"+userid+
-                    "' and source ='"+Source+"'and destination ='"+destination+"';";
+
+            String query = " select * from trip where User = '"+userid+
+                    "' and Source ='"+Source+"'and Destination ='"+destination+"';";
             ResultSet RS = stmt.executeQuery(query);
             if (!RS.next()){
-                String State = RS.getString("state");
-                if(State.equals("double"))
-                    return true;
-                else
-                    return false;
-            }else{
+                String State = RS.getString("shareTrip");*/
+                if(State.equals("yes"))
+                {
+                    return true;}
+                else{
+                    return false;}
+            /*}else{
                 return false;
-            }
-        }
+            }*/
+        /*}
         catch (SQLException e) {
             System.out.println("Opps,error!");
             System.out.println("Error: " + e.getMessage());
         }
-        return false;
+        return false;*/
     }
     public boolean isDateoftripisuserbirthday(String B_date,String userid,String Source,String destination){
+
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
                     "root", "");
+
             Statement stmt = connection.createStatement();
             String query = " select * from trip where date = '"+ B_date+"' and User_id = '"+userid+
                     "' and source ='"+Source+"'and destination ='"+destination+"';";
             ResultSet RS = stmt.executeQuery(query);
-            if (!RS.next())
-                return true;
+            if (RS.next())
+            {return true;}
             else
-                return false;
+            { return false;}
 
 
         } catch (SQLException e) {
@@ -159,10 +189,10 @@ public class Trip {
             Statement stmt = connection.createStatement();
             String query = " select * from holiday where date = '"+ dateoftrip+"';";
             ResultSet RS = stmt.executeQuery(query);
-            if (!RS.next())
-                return true;
+            if (RS.next())
+            { return true;}
             else
-                return false;
+            {return false;}
 
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());

@@ -84,6 +84,7 @@ public class Driver extends Person implements Registration {
            int i=1;
            if (RS.next())
             {String place1 =RS.getString(1);
+             System.out.println(place1);
                 ResultSet RS1 = stmt.executeQuery("select location and tripState from drivers where National_ID= '"+ national + "';");
                 if (RS1.next()) {
                     if(RS1.getString(1).equals(place1) && RS1.getString(2)!="on" )
@@ -159,7 +160,7 @@ void offer_sharetrip(String source,String destination,String User_ID,String shar
             ps.setString(3, destination);
             ps.setInt(4, price2);
             ps.setString(5, User_ID);
-            ps.setString(6, dtf.format(now));
+            ps.setString(6, "2022-01-04");
             ps.executeUpdate();
 
            // connect.close();

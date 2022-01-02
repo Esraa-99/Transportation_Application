@@ -101,7 +101,7 @@ return  email;
             this.Destination = destination;
 
             //insert new row in on hold trips table
-            String query = "insert into OnHold_Trips (User,Source,Destination,shareTrip) "
+            String query = "insert into onhold_trips (User,Source,Destination,shareTrip) "
                     + "values (?,?,?,?)";
 
             try {
@@ -123,7 +123,8 @@ return  email;
                 System.out.println("Error: " + e.getMessage());
             }
         }
-        return  this.Source;
+
+        return this.Source ;
     }
 
     public String[] Show_Offer(String email1) {
@@ -136,24 +137,25 @@ return  email;
                     "root", "");
 
             Statement stmt = connection.createStatement();
-            ResultSet RS = stmt.executeQuery("select * from Offers where User ='"+ email1+"';");
+            ResultSet RS = stmt.executeQuery("select * from offers where User ='"+ email1+"';");
             if (!RS.next()) {
                 System.out.println("No offers yet"); //data not exist
             } else {
                 String id = RS.getString("Driver_ID");
-                String id_user = RS.getString("User_id");
-                String date = RS.getString("date");
+                String id_user = RS.getString("User");
+                String date = RS.getString("time");
                 int Price = RS.getInt("Price");
 
               //momen
-              // String price1= String.valueOf((Price));
+              //String price1= String.valueOf((Price));
                // String priceoffer=String.valueOf((Price));
-                //String[]  arr={id,email1,this.Source,this.Destination,price1,priceoffer};
+                //String[]  arr={id,email1,this.Source,this.Destination,price1};
 
 
                 this.Source = RS.getString("Source");
                 this.Destination = RS.getString("Destination");
-                String[]  arr={/*0*/id,/*1*/email1,/*2*/this.Source,/*3*/this.Destination,/*4*/id_user,/*5*/date, /*6*/String.valueOf(Price)};
+                String shareTrip1="no";
+                String[]  arr={/*0*/id,/*1*/email1,/*2*/this.Source,/*3*/this.Destination,/*4*/id_user,/*5*/date, /*6*/String.valueOf(Price),shareTrip1};
                 ResultSet Result = stmt.executeQuery("select * from drivers where National_ID='" + id + "';");
                 if (!Result.next()) {
                     System.out.println("No data"); //data not exist
@@ -175,7 +177,7 @@ return  email;
                             PreparedStatement ps;
 
                             Stmt = connection.createStatement();
-                            String query = "delete from Offers where Source= '"+ this.Source +"' and Destination= '"+this.Destination+ "' and User='"+email1+"';";
+                            String query = "delete from offers where Source= '"+ this.Source +"' and Destination= '"+this.Destination+ "' and User='"+email1+"';";
                             ps = connection.prepareStatement(query);
                             ps.executeUpdate();
 
@@ -187,6 +189,27 @@ return  email;
 
                             // Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
                             //     "root", "");
+
+                            try {
+                                Scanner scanner1 = new Scanner(System.in);
+                                Connection connection1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
+                                        "root", "");
+
+                                Statement stmt1 = connection.createStatement();
+                                ResultSet RS1 = stmt.executeQuery("select * from onhold_trips where Source= '"+ this.Source +"' and Destination= '"+this.Destination+ "' and User='"+email1+"';");
+                                if (!RS1.next()) {
+                                    System.out.println("No offers yet"); //data not exist
+                                } else {
+                                     shareTrip1 = RS.getString("shareTrip");
+
+                                   // arr[7]=shareTrip1;
+                                    System.out.println(arr[7]);
+
+                                }
+                            } catch (Exception e) {
+                                System.out.println(e);
+                            }
+
                             Statement Stmt = null;
                             PreparedStatement ps;
 
@@ -208,7 +231,7 @@ return  email;
                             PreparedStatement ps;
 
                             Stmt = connection.createStatement();
-                            String query = "delete from Offers where Source= '"+ this.Source +"' and Destination= '"+this.Destination+ "'";
+                            String query = "delete from offers where Source= '"+ this.Source +"' and Destination= '"+this.Destination+ "'";
                             ps = connection.prepareStatement(query);
                             ps.executeUpdate();
 
@@ -225,6 +248,31 @@ return  email;
             System.out.println(e);
         }
         return null;
+        }
+
+
+       public String getBirthday1(String Email){
+           try {
+               Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/transportation",
+                       "root", "");
+               Statement stmt = connection.createStatement();
+               ResultSet RS = stmt.executeQuery("select * from users where Email= '" + Email + "';");
+               if (RS.next()) {
+
+                   String hh=RS.getString("birthdate");
+                   System.out.println(hh);
+
+                      return hh;
+               } else {
+                   System.out.println("Try to login again ^_^");
+                   return  null;
+               }
+
+           } catch (SQLException e) {
+               System.out.println("Erorr!"); //data not exist
+               e.printStackTrace();
+           }
+           return null;
         }
 
 

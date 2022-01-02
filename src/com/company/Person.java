@@ -9,6 +9,7 @@ public class Person {
     private String Mobile_Number;
     public String Email;
     private String Password;
+    public   String Birthday;
 
     //setters
     public void  setUser_name(String username){
@@ -23,6 +24,9 @@ public class Person {
     public void  setPassword(String password){
         this.Password =password;
     }
+    public void  setbirthday(String birthday){
+        this.Birthday =birthday;
+    }
     //getters
     public String getUser_name(){
         return User_Name;
@@ -32,6 +36,9 @@ public class Person {
     }
     public String getEmail(){
         return this.Email;
+    }
+    public String getbirthday(){
+        return this.Birthday;
     }
     public String getPassword(){
         return this.Password;
@@ -60,6 +67,10 @@ public class Person {
 
                         setEmail(Email);
                         this.Email=Email;
+                        String hh=RS.getString("birthdate");
+                        System.out.println(hh);
+                          setbirthday(hh);
+                           this.Birthday=hh;
 
                     } else {
                         System.out.println("Try to login again ^_^");
